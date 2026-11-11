@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "SentinelPass",
+    "slug": "sentinel-pass",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "SentinelPass requiere acceso a tu ubicación para validar la asistencia en el punto de marcaje."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0D2A4A"
+      },
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Permite a SentinelPass verificar tu ubicación para el registro de asistencia."
+        }
+      ]
+    ]
+  }
+}

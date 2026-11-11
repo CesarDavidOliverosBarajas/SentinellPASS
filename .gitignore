@@ -1,0 +1,38 @@
+# Node & Expo dependencies
+node_modules/
+.expo/
+dist/
+web-build/
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Native builds & credentials
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Environment variables
+.env
+.env*.local
+
+# Multimedia & heavy university delivery artifacts
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.pdf
+CodigoSentinelPass.txt
+
+# macOS & OS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+Thumbs.db
