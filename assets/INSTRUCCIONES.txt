@@ -1,0 +1,46 @@
+SENTINELPASS — RECURSOS DE LOGO
+
+Archivos incluidos:
+- logo.png: logotipo completo (escudo + nombre) para la pantalla de inicio.
+- icon.png: icono cuadrado de 1024 x 1024 para el launcher general/iOS.
+- adaptive-icon.png: recurso de primer plano para el icono adaptable de Android (fondo blanco).
+
+INTEGRACION EN EL PROYECTO
+
+1) En la raiz del proyecto crea la carpeta assets si no existe. Copia alli los tres PNG.
+
+2) En src/screens/InicioScreen.js, reemplaza la imagen remota por:
+
+<Image
+  source={require('../../assets/logo.png')}
+  style={styles.logo}
+  resizeMode="contain"
+/>
+
+3) En src/styles/styles.js, reemplaza el estilo logo actual por:
+
+logo: {
+  width: 240,
+  height: 190,
+  alignSelf: 'center',
+  marginTop: 5,
+  marginBottom: 18,
+},
+
+4) En app.json, dentro del objeto expo agrega la propiedad:
+
+"icon": "./assets/icon.png",
+
+Y dentro del objeto "android" deja/ajusta "adaptiveIcon" asi:
+
+"adaptiveIcon": {
+  "foregroundImage": "./assets/adaptive-icon.png",
+  "backgroundColor": "#FFFFFF"
+},
+
+IMPORTANTE: conserva las demas propiedades existentes en app.json (permisos y plugins). No reemplaces todo el archivo.
+
+5) Prueba el cambio visual de la pantalla con:
+   npx expo start -c
+
+Para ver el icono actualizado en el celular debes generar e instalar una nueva compilacion de la app. Reiniciar Expo Go no cambia el icono de Expo Go.
