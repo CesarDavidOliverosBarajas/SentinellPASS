@@ -33,14 +33,15 @@ export const styles = StyleSheet.create({
   // ====================================================
   // LOGO
   // ====================================================
-  logo: {
-    width: 180,
-    height: 180,
-    borderRadius: 20,
-    alignSelf: 'center',
-    marginTop: 5,
-    marginBottom: 18,
-  },
+
+logo: {
+  width: 240,
+  height: 190,
+  borderRadius: 22,
+  alignSelf: 'center',
+  marginTop: 5,
+  marginBottom: 18,
+},
 
   // ====================================================
   // HEADER
