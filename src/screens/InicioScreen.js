@@ -66,13 +66,11 @@ export default function InicioScreen({ navigation }) {
           {/* ==================================================
               LOGO
           ================================================== */}
-          <Image
-            source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6RJ7rz24uNjQ0-ybsoPsdRUk8vPITZ1ZOQgKgfayeA&s=10',
-            }}
-            style={styles.logo}
-            resizeMode="cover"
-          />
+         <Image
+  source={require('../../assets/logo.png')}
+  style={styles.logo}
+  resizeMode="contain"
+/>
 
           {/* ==================================================
               ENCABEZADO
