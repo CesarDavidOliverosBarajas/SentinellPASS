@@ -13,10 +13,10 @@
       }
     },
     "android": {
-    "adaptiveIcon": {
-  "foregroundImage": "./assets/adaptive-icon.png",
-  "backgroundColor": "#FFFFFF"
-},
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
@@ -28,7 +28,9 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Permite a SentinelPass verificar tu ubicación para el registro de asistencia."
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-status-bar"
     ]
   }
 }
