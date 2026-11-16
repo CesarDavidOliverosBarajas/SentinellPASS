@@ -23,12 +23,13 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.azulFondo,
   },
 
-  pantallaContenido: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 25,
-  },
+pantallaContenido: {
+  flexGrow: 1,
+  alignItems: 'center',
+  justifyContent: 'flex-start',
+  padding: 25,
+  paddingTop: 20,
+},
 
   // ====================================================
   // LOGO
