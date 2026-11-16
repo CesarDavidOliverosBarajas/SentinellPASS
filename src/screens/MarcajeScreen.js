@@ -9,10 +9,11 @@ import BotonPrincipal from '../components/BotonPrincipal';
  */
 export default function MarcajeScreen({ navigation }) {
   return (
-    <ScrollView
-      style={styles.pantalla}
-      contentContainerStyle={styles.pantallaContenido}
-    >
+<ScrollView
+  style={styles.pantalla}
+  contentContainerStyle={styles.pantallaContenido}
+  contentInsetAdjustmentBehavior="automatic"
+>
       <View style={styles.detalleIcono}>
         <Text style={styles.detalleEmoji}>🕐</Text>
       </View>

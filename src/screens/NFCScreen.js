@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { ScrollView, View, Text, Pressable } from 'react-native';
 import { styles } from '../styles/styles';
 
 /**
@@ -18,7 +18,7 @@ export default function NFCScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.pantalla}>
+  <ScrollView style={styles.pantalla} contentContainerStyle={{ flexGrow: 1 }} contentInsetAdjustmentBehavior="automatic">
       <View style={styles.pantallaContenido}>
         <View style={styles.detalleIcono}>
           <Text style={styles.detalleEmoji}>📲</Text>
@@ -43,8 +43,8 @@ export default function NFCScreen({ navigation }) {
           <Text style={styles.botonPrincipalTexto}>
             {validado ? 'NFC VALIDADO' : 'VALIDAR NFC'}
           </Text>
-        </Pressable>
-      </View>
+              </Pressable>
     </View>
+  </ScrollView>
   );
 }
