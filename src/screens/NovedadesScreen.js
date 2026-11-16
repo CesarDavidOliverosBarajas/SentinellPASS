@@ -26,10 +26,10 @@ export default function NovedadesScreen() {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.pantalla}>
-        <ScrollView
+        <ScrollView style={{ flex: 1 }}
           contentContainerStyle={styles.pantallaContenido}
           keyboardShouldPersistTaps="handled"
-        >
+         contentInsetAdjustmentBehavior="automatic">
           <View style={styles.detalleIcono}>
             <Text style={styles.detalleEmoji}>⚠️</Text>
           </View>

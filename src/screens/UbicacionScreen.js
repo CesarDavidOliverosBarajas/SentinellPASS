@@ -129,7 +129,7 @@ export default function UbicacionScreen({ navigation }) {
     <ScrollView
       style={styles.pantalla}
       contentContainerStyle={styles.pantallaContenido}
-    >
+     contentInsetAdjustmentBehavior="automatic">
       <View style={styles.detalleIcono}>
         <Text style={styles.detalleEmoji}>📍</Text>
       </View>

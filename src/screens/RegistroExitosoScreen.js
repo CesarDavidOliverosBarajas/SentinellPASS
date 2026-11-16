@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { styles } from '../styles/styles';
 import BotonPrincipal from '../components/BotonPrincipal';
 
@@ -12,7 +12,11 @@ export default function RegistroExitosoScreen({ navigation, route }) {
   const { ubicacion, horaVerificacion, idMarcaje, sincronizado } = route.params || {};
 
   return (
-    <View style={styles.pantalla}>
+    <ScrollView
+  style={styles.pantalla}
+  contentContainerStyle={{ flexGrow: 1 }}
+  contentInsetAdjustmentBehavior="automatic"
+>
       <View style={styles.pantallaContenido}>
         <View style={styles.exitoCirculo}>
           <Text style={styles.exitoTexto}>✓</Text>
@@ -63,6 +67,6 @@ export default function RegistroExitosoScreen({ navigation, route }) {
           onPress={() => navigation.popToTop()}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 }

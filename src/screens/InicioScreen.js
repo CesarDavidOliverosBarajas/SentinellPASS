@@ -56,12 +56,14 @@ export default function InicioScreen({ navigation }) {
   );
 
   return (
-    <FlatList
-      style={styles.lista}
-      data={opcionesFiltradas}
-      keyExtractor={(item) => item.id}
-      contentContainerStyle={styles.listaContenido}
-      ListHeaderComponent={
+  <FlatList
+    contentInsetAdjustmentBehavior="automatic"
+    style={styles.lista}
+    data={opcionesFiltradas}
+    keyExtractor={(item) => item.id}
+    contentContainerStyle={styles.listaContenido}
+    ListHeaderComponent={
+
         <View>
           {/* ==================================================
               LOGO
