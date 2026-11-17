@@ -1,7 +1,16 @@
-import { collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { db } from '../config/firebase';
 
-const COLECCION = 'marcajes';
+const COLECCION_MARCAJES = 'marcajes';
+const COLECCION_NOVEDADES = 'novedades';
 
 /**
  * Función auxiliar para limitar el tiempo de espera (timeout)
@@ -14,7 +23,7 @@ const conTimeout = (promesa, ms = 7000) => {
         () =>
           reject(
             new Error(
-              'Tiempo de espera agotado (Timeout). Verifica que la base de datos Firestore esté creada en la consola de Firebase.'
+              'Tiempo de espera agotado (Timeout). Verifica tu conexión o que Firestore esté activo en Firebase.'
             )
           ),
         ms
@@ -23,12 +32,12 @@ const conTimeout = (promesa, ms = 7000) => {
   ]);
 };
 
+// ====================================================
+// CRUD DE MARCAJES DE ASISTENCIA
+// ====================================================
+
 /**
- * Guarda un nuevo marcaje de asistencia en la base de datos en la nube (Firestore)
- * @param {Object} params - Datos del marcaje
- * @param {string} params.tipo - 'Entrada' o 'Salida'
- * @param {Object} params.ubicacion - { latitude, longitude }
- * @param {Date} params.horaVerificacion - Fecha/hora de la captura GPS
+ * CREATE: Guarda un nuevo marcaje de asistencia en Firestore
  */
 export async function registrarMarcaje({ tipo = 'Entrada', ubicacion, horaVerificacion }) {
   try {
@@ -52,9 +61,8 @@ export async function registrarMarcaje({ tipo = 'Entrada', ubicacion, horaVerifi
       creadoEn: serverTimestamp(),
     };
 
-    // Intentar guardar con un límite de 7 segundos para no congelar la pantalla
     const docRef = await conTimeout(
-      addDoc(collection(db, COLECCION), nuevoRegistro),
+      addDoc(collection(db, COLECCION_MARCAJES), nuevoRegistro),
       7000
     );
 
@@ -67,14 +75,14 @@ export async function registrarMarcaje({ tipo = 'Entrada', ubicacion, horaVerifi
 }
 
 /**
- * Obtiene la lista de marcajes reales guardados en la nube
+ * READ: Obtiene la lista de marcajes reales guardados en Firestore
  */
 export async function obtenerHistorialMarcajes() {
   try {
-    const snapshot = await conTimeout(getDocs(collection(db, COLECCION)), 6000);
-    const registros = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
+    const snapshot = await conTimeout(getDocs(collection(db, COLECCION_MARCAJES)), 6000);
+    const registros = snapshot.docs.map((documento) => ({
+      id: documento.id,
+      ...documento.data(),
     }));
 
     // Ordenar del más reciente al más antiguo
@@ -88,5 +96,127 @@ export async function obtenerHistorialMarcajes() {
   } catch (error) {
     console.warn('Aviso al obtener historial de Firebase:', error.message);
     return [];
+  }
+}
+
+/**
+ * UPDATE: Actualiza los campos de un marcaje existente en Firestore
+ */
+export async function actualizarMarcaje(id, { tipo, estado }) {
+  try {
+    if (!id) throw new Error('ID de documento inválido.');
+
+    const refDoc = doc(db, COLECCION_MARCAJES, id);
+    await conTimeout(
+      updateDoc(refDoc, {
+        tipo,
+        estado,
+        actualizadoEn: serverTimestamp(),
+      }),
+      7000
+    );
+
+    console.log('Marcaje actualizado en Firestore:', id);
+    return { exito: true };
+  } catch (error) {
+    console.error('Error al actualizar marcaje:', error.message);
+    return { exito: false, error: error.message };
+  }
+}
+
+/**
+ * DELETE: Elimina un marcaje existente de Firestore
+ */
+export async function eliminarMarcaje(id) {
+  try {
+    if (!id) throw new Error('ID de documento inválido.');
+
+    const refDoc = doc(db, COLECCION_MARCAJES, id);
+    await conTimeout(deleteDoc(refDoc), 7000);
+
+    console.log('Marcaje eliminado de Firestore:', id);
+    return { exito: true };
+  } catch (error) {
+    console.error('Error al eliminar marcaje:', error.message);
+    return { exito: false, error: error.message };
+  }
+}
+
+// ====================================================
+// CRUD DE NOVEDADES
+// ====================================================
+
+/**
+ * CREATE: Guarda una novedad o justificación en Firestore
+ */
+export async function registrarNovedad(descripcion) {
+  try {
+    const ahora = new Date();
+
+    const nuevaNovedad = {
+      descripcion: descripcion.trim(),
+      fecha: ahora.toLocaleDateString('es-CO', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      }),
+      hora: ahora.toLocaleTimeString('es-CO', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }),
+      estado: 'Reportada',
+      creadoEn: serverTimestamp(),
+    };
+
+    const docRef = await conTimeout(
+      addDoc(collection(db, COLECCION_NOVEDADES), nuevaNovedad),
+      7000
+    );
+
+    console.log('Novedad guardada en Firestore con ID:', docRef.id);
+    return { exito: true, id: docRef.id };
+  } catch (error) {
+    console.error('Error al guardar novedad en Firebase:', error.message);
+    return { exito: false, error: error.message };
+  }
+}
+
+/**
+ * READ: Obtiene el listado de novedades registradas en Firestore
+ */
+export async function obtenerNovedades() {
+  try {
+    const snapshot = await conTimeout(getDocs(collection(db, COLECCION_NOVEDADES)), 6000);
+    const lista = snapshot.docs.map((documento) => ({
+      id: documento.id,
+      ...documento.data(),
+    }));
+
+    lista.sort((a, b) => {
+      const tiempoA = a.creadoEn?.seconds || 0;
+      const tiempoB = b.creadoEn?.seconds || 0;
+      return tiempoB - tiempoA;
+    });
+
+    return lista;
+  } catch (error) {
+    console.warn('Aviso al obtener novedades de Firebase:', error.message);
+    return [];
+  }
+}
+
+/**
+ * DELETE: Elimina una novedad registrada en Firestore
+ */
+export async function eliminarNovedad(id) {
+  try {
+    if (!id) throw new Error('ID de novedad inválido.');
+
+    await conTimeout(deleteDoc(doc(db, COLECCION_NOVEDADES, id)), 7000);
+    return { exito: true };
+  } catch (error) {
+    console.error('Error al eliminar novedad:', error.message);
+    return { exito: false, error: error.message };
   }
 }

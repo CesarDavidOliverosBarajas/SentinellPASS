@@ -9,14 +9,15 @@ import BotonPrincipal from '../components/BotonPrincipal';
  * validación NFC, coordenadas geográficas y regreso al inicio.
  */
 export default function RegistroExitosoScreen({ navigation, route }) {
-  const { ubicacion, horaVerificacion, idMarcaje, sincronizado } = route.params || {};
+  const { ubicacion, horaVerificacion, idMarcaje, sincronizado, tipo = 'Entrada' } =
+    route.params || {};
 
   return (
     <ScrollView
-  style={styles.pantalla}
-  contentContainerStyle={{ flexGrow: 1 }}
-  contentInsetAdjustmentBehavior="automatic"
->
+      style={styles.pantalla}
+      contentContainerStyle={{ flexGrow: 1 }}
+      contentInsetAdjustmentBehavior="automatic"
+    >
       <View style={styles.pantallaContenido}>
         <View style={styles.exitoCirculo}>
           <Text style={styles.exitoTexto}>✓</Text>
@@ -29,7 +30,7 @@ export default function RegistroExitosoScreen({ navigation, route }) {
         </Text>
 
         <View style={styles.registroCard}>
-          <Text style={styles.registroTitulo}>Entrada registrada</Text>
+          <Text style={styles.registroTitulo}>{tipo} registrada</Text>
 
           {horaVerificacion && (
             <Text style={styles.registroHora}>
